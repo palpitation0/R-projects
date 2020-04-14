@@ -32,7 +32,7 @@ BiocManager::install("CNVtools")
 
     ## 
     ## The downloaded binary packages are in
-    ##  C:\Users\Choi Sung Wook\AppData\Local\Temp\RtmpKYp375\downloaded_packages
+    ##  C:\Users\Choi Sung Wook\AppData\Local\Temp\Rtmpecwp3g\downloaded_packages
 
     ## Installation path not writeable, unable to update packages: boot, class,
     ##   foreign, KernSmooth, lattice, MASS, Matrix, mgcv, nnet
