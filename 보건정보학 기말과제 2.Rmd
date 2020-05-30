@@ -1,0 +1,73 @@
+---
+title: "COVID-19 GIS"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+data <- read.csv("covid19.csv", header=TRUE)
+```
+
+```{r}
+head(data)
+```
+
+```{r}
+str(data)
+```
+
+```{r}
+library(ggmap)
+library(maptools)
+library(sp)
+library(ggplot2)
+```
+
+```{r}
+library(raster)
+library(rgeos)
+library(rgdal)
+```
+
+```{r}
+korea <- readOGR("KOR_adm1.shp")
+```
+
+```{r}
+plot(korea)
+```
+
+```{r}
+korea_1 <- fortify(korea)
+```
+
+```{r}
+korea_2 <- fortify(korea, region="NAME_1")
+```
+
+
+```{r}
+ggplot(korea_2, aes(x=long, y=lat, group=group)) + geom_path()
+```
+
+```{r}
+library(dplyr)
+korea_2_value <- data.frame(
+  korea_2 %>%
+  select(id) %>%
+  distinct,
+  value = data$covid_19
+)
+```
+
+```{r}
+korea_data <- korea_2 %>% left_join(korea_2_value)
+```
+
+```{r}
+ggplot(korea_data, aes(x=long, y=lat, group=group)) + geom_polygon(aes(fill=value))
+```
