@@ -1,0 +1,54 @@
+---
+title: "Survival analysis 2"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(survival)
+data(aml)
+View(aml)
+```
+
+```{r}
+survfit <- survfit(Surv(time)~x, data=aml)
+survfit
+```
+
+```{r}
+# maintained group 의 median survival 은 28.0 
+# 95% 신뢰구간은 (18, ) 이므로 censoring 을 반영하여
+# (18, 161) 로 보정.
+```
+
+```{r}
+K <- length(survfit$strata)
+LEGEND <- attr(survfit$strata, "names")
+
+plot(survfit, lty=1:K)
+legend("topright", LEGEND, lty=1:K)
+```
+
+```{r}
+test <- survdiff(Surv(time)~x, data=aml)
+test
+```
+
+```{r}
+# p-value =0.1 로, 두 그룹의 생존곡선은 유의수준 5%에서 동일하다
+```
+
+```{r}
+summary(survfit)
+```
+
+```{r}
+survfit <- survfit(Surv(time)~x, conf.type="plain",
+                   data=aml)
+plot(survfit, lty=1:2, conf.int=TRUE)
+LEGEND <- attr(survfit$strata, "names")
+legend("topright", LEGEND, lty=1:2)
+```
